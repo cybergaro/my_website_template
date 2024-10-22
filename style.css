@@ -1,0 +1,130 @@
+body {
+    margin: 0;
+}
+
+h1,
+h2,
+p {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    margin: 0;
+    color: #222222;
+    font-size: 15px;
+}
+
+h1 {
+    font-size: 46px;
+    color: #222222;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* header */
+header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px
+}
+
+header img{
+    height: 50px;
+}
+
+header h2{
+    margin-left: 15px;
+    font-size: 16px;
+}
+
+/* default */
+.default {
+    display: flex;
+    flex-direction: row;
+    padding: 130px 200px;
+}
+
+.default .col {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 50%;
+}
+
+.default .colb {
+    justify-content: flex-end;
+}
+
+.default .immageProfile {
+    background-image: url("img/parigi.jpg");
+    background-size: cover;
+    background-position: 50% 50%;
+    height: 480px;
+    width: 100%;
+    border-radius: 30px;
+}
+
+/* end default */
+
+@media(max-width:1600px) {
+    .default {
+        padding: 100px;
+    }
+}
+
+@media(max-width:1200px) {
+    .default {
+        padding: 100px 30px;
+    }
+
+    h1 {
+        font-size: 40px;
+    }
+
+    .default .immageProfile {
+        height: 400px;
+    }
+}
+
+@media (max-width:1000px) {
+    .default {
+        padding: 50px 0;
+    }
+
+    h1 {
+        font-size: 35px;
+    }
+}
+
+@media (max-width:800px) {
+    .default {
+        flex-direction: column;
+    }
+
+    .default .col {
+        padding: 30px;
+        flex-direction: column;
+        width: auto;
+    }
+
+    .default .colb {
+        padding-top: 5px;
+    }
+
+    h1 {
+        font-size: 31px;
+    }
+
+    .default p {
+        margin-top: 10px;
+        font-size: 14.5px;
+        line-height: 22px;
+    }
+
+    .default .immageProfile {
+        height: 300px;
+    }
+}
