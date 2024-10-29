@@ -97,6 +97,11 @@ header h2 {
     border-radius: 30px;
 }
 
+.default .button-row{
+    margin-top: 25px;
+}
+
+
 .default .button-about {
     border: 2px solid #222222;
     padding: 10px 20px;
@@ -111,6 +116,16 @@ header h2 {
 .default .button-about:hover {
     background-color: #222222;
     color: #ffffff
+}
+
+.default .button-contact{
+    background-color: #222222;
+    color: #fff;
+}
+
+.default .button-contact:hover{
+    color:#fff;
+    background-color: #000;
 }
 
 /* end default */
