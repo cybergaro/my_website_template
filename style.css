@@ -51,23 +51,6 @@ h3 {
     }
 }
 
-/* header */
-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px
-}
-
-header img {
-    height: 50px;
-}
-
-header h2 {
-    margin-left: 15px;
-    font-size: 16px;
-}
-
 /* default */
 .default {
     display: flex;
