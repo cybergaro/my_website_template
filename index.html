@@ -1,310 +1,525 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Francesco Garofolo's Web site, app & website developer, investor">
-    <title>Francesco Garofolo</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Francesco Garofolo — Computer Engineering Student & Software Engineer in Rome, Italy.">
+  <title>Francesco Garofolo</title>
 
-    <!-- favicon -->
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <!-- Load Newsreader (optical size, weights 400, 500, 600, italic) from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
 
-    <!-- icons -->
-    <script src="https://kit.fontawesome.com/3e5cf208fc.js" crossorigin="anonymous"></script>
+  <style>
+    /* ==========================================================================
+       1. Design Tokens & Color Palette (Light / Automatic Dark Mode)
+       ========================================================================== */
+    :root {
+      --bg: #faf9f5;
+      --text: #191918;
+      --text-muted: #666560;
+      --border: #e6e4dd;
+      --underline: #a8a69e;
+      --underline-hover: #191918;
+      --selection-bg: #e7e4da;
 
-    <!-- css -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
+      --font-serif: 'Newsreader', 'Georgia', 'Times New Roman', serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #161615;
+        --text: #e8e6df;
+        --text-muted: #9e9c94;
+        --border: #2c2c29;
+        --underline: #6d6c66;
+        --underline-hover: #e8e6df;
+        --selection-bg: #2e2e2a;
+      }
+    }
+
+    /* ==========================================================================
+       2. Base Reset & Editorial Typography
+       ========================================================================== */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 100%;
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-serif);
+      font-optical-sizing: auto;
+      font-size: 1.125rem; /* 18px editorial reading size */
+      line-height: 1.66;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-feature-settings: "kern" 1, "liga" 1;
+      text-rendering: optimizeLegibility;
+    }
+
+    ::selection {
+      background-color: var(--selection-bg);
+    }
+
+    :focus-visible {
+      outline: 1px solid var(--text);
+      outline-offset: 3px;
+    }
+
+    /* ==========================================================================
+       3. Responsive Layout Shell
+       - Mobile & Tablet (< 960px): Single column (max-width: 640px) with a
+         compact horizontal navigation bar at the top and zero excess whitespace.
+       - Desktop (>= 960px): Centered container (max-width: 840px) with 140px
+         sticky left sidebar + 48px gap + 640px reading column.
+       ========================================================================== */
+    .page-shell {
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 24px 20px 64px;
+    }
+
+    .site-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem 1.1rem;
+      padding: 0 0 14px;
+      margin-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .site-nav a {
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      line-height: 1.4;
+      letter-spacing: 0.01em;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 2px 0;
+      transition: color 0.16s ease, text-decoration-color 0.16s ease;
+    }
+
+    .site-nav a:hover,
+    .site-nav a:focus-visible {
+      color: var(--text);
+      text-decoration: underline;
+      text-decoration-color: var(--underline-hover);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+    }
+
+    .content-column {
+      min-width: 0;
+    }
+
+    @media (min-width: 960px) {
+      .page-shell {
+        max-width: 840px;
+        padding: 64px 6px 80px;
+        display: grid;
+        grid-template-columns: 140px minmax(0, 640px);
+        column-gap: 48px;
+        align-items: start;
+      }
+
+      .site-nav {
+        position: sticky;
+        top: 64px;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 0.6rem;
+        padding: 4px 0 0;
+        margin-bottom: 0;
+        border-bottom: none;
+      }
+    }
+
+    /* ==========================================================================
+       4. Header & Typography Hierarchy
+       ========================================================================== */
+    .site-header {
+      margin-bottom: 2.5rem;
+    }
+
+    h1 {
+      margin: 0 0 0.4rem;
+      font-size: clamp(1.95rem, 3.6vw, 2.35rem);
+      font-weight: 500;
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .subtitle {
+      margin: 0;
+      font-size: 1.0625rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    h2 {
+      margin: 0 0 1.25rem;
+      font-size: 1.3rem;
+      font-weight: 500;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+
+    p {
+      margin: 0 0 1.15rem;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Editorial Inline Links */
+    a {
+      color: var(--text);
+      text-decoration: underline;
+      text-decoration-color: var(--underline);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+      transition: text-decoration-color 0.16s ease, color 0.16s ease;
+    }
+
+    a:hover {
+      color: var(--text);
+      text-decoration-color: var(--underline-hover);
+    }
+
+    /* ==========================================================================
+       5. Sections & Hairline Dividers
+       ========================================================================== */
+    section {
+      padding-top: 2.25rem;
+      margin-top: 2.25rem;
+      border-top: 1px solid var(--border);
+      scroll-margin-top: 2rem;
+    }
+
+    /* ==========================================================================
+       6. Editorial Entries (Work, Experience, Education, Certifications, Volunteering)
+       ========================================================================== */
+    .entry-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .entry-item {
+      margin-bottom: 1.55rem;
+    }
+
+    .entry-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .entry-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.15rem 1rem;
+      margin-bottom: 0.2rem;
+      line-height: 1.45;
+    }
+
+    .entry-title {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .entry-date {
+      font-family: var(--font-sans);
+      font-size: 0.8125rem;
+      letter-spacing: 0.01em;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .entry-org {
+      margin: 0 0 0.35rem;
+      font-size: 0.96875rem;
+      font-style: italic;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .entry-desc {
+      margin: 0;
+      font-size: 1.03125rem;
+      line-height: 1.62;
+      color: var(--text);
+    }
+
+    /* Compact spacing for Certifications list */
+    .cert-list .entry-item {
+      margin-bottom: 1rem;
+    }
+
+    .cert-list .entry-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .cert-list .entry-org {
+      margin-bottom: 0;
+    }
+
+    /* ==========================================================================
+       7. Contact List & Minimal Footer
+       ========================================================================== */
+    .contact-list {
+      list-style: none;
+      margin: 1.25rem 0 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .contact-list li {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.25rem 0.85rem;
+    }
+
+    .contact-label {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      min-width: 4.75rem;
+    }
+
+    .site-footer {
+      margin-top: 3.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-align: left;
+    }
+
+    /* ==========================================================================
+       8. Print Stylesheet
+       ========================================================================== */
+    @media print {
+      .site-nav {
+        display: none;
+      }
+
+      .page-shell {
+        display: block;
+        max-width: 100%;
+        padding: 0;
+      }
+    }
+  </style>
 </head>
-
 <body>
-    <div class="default">
-        <div class="col">
-            <h1>Francesco Garofolo</h1>
-            <p>App & Website developer | IT student at the University of Rome Tor Vergata | Entrepreneur</p>
-            <div class="button-row">
-                <a href="#contact" class="button-about button-contact">Contact me</a>
-                <a href="#about" class="button-about">About me</a>
-            </div>
-        </div>
-        <div class="col colb">
-            <div class="immageProfile"></div>
-        </div>
+  <div class="page-shell">
+
+    <!-- Compact Navigation (Horizontal bar on mobile/tablet, sticky left sidebar on desktop) -->
+    <nav class="site-nav" aria-label="Page sections">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+      <a href="#certifications">Certifications</a>
+      <a href="#volunteering">Volunteering</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <!-- Main Editorial Reading Column -->
+    <div class="content-column">
+
+      <!-- Header -->
+      <header class="site-header" id="top">
+        <h1>Francesco Garofolo</h1>
+        <p class="subtitle">Computer Engineering Student &amp; Software Engineer &mdash; Rome, Italy</p>
+      </header>
+
+      <main>
+
+        <!-- Section 1: About -->
+        <section id="about" aria-labelledby="heading-about">
+          <h2 id="heading-about">About</h2>
+          <p>
+            I am a Computer Engineering undergraduate at Universit&agrave; degli Studi di Roma &ldquo;Tor Vergata&rdquo; (Software and Web track) and an independent full-stack software developer based in Rome. My work focuses on building reliable web and mobile systems, spanning backend architectures to AI-assisted workflows.
+          </p>
+          <p>
+            I care deeply about first-principles engineering, alongside a strong academic interest in Quantum Computing, Quantum Software, and Machine Learning.
+          </p>
+        </section>
+
+        <!-- Section 2: Selected Work -->
+        <section id="work" aria-labelledby="heading-work">
+          <h2 id="heading-work">Selected Work</h2>
+          <ul class="entry-list">
+            <li class="entry-item">
+              <div class="entry-header">
+                <span class="entry-title">Real Smart AI</span>
+              </div>
+              <p class="entry-desc">
+                Cross-platform mobile AI assistant (React Native, Expo, NestJS, MongoDB) built for real estate agents to streamline workflows and client interactions.
+              </p>
+            </li>
+            <li class="entry-item">
+              <div class="entry-header">
+                <span class="entry-title">Agent Core</span>
+              </div>
+              <p class="entry-desc">
+                Multi-tenant real estate CMS and automation platform built with Laravel, integrating XML/API property feeds and multi-agency publishing workflows.
+              </p>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Section 3: Experience -->
+        <section id="experience" aria-labelledby="heading-experience">
+          <h2 id="heading-experience">Experience</h2>
+          <ul class="entry-list">
+            <li class="entry-item">
+              <div class="entry-header">
+                <span class="entry-title">Full Stack Developer</span>
+                <span class="entry-date">Jul 2023 &ndash; Present</span>
+              </div>
+              <p class="entry-org">Freelance &middot; Self-employed</p>
+              <p class="entry-desc">
+                Collaborating with real estate agencies and business clients to digitize sales processes, designing and developing customized full-stack web and mobile solutions.
+              </p>
+            </li>
+            <li class="entry-item">
+              <div class="entry-header">
+                <span class="entry-title">Full Stack Web Developer</span>
+                <span class="entry-date">Jul 2022 &ndash; Jul 2023</span>
+              </div>
+              <p class="entry-org">Syrus Industry &middot; Part-time, Greater Rome Metropolitan Area &middot; Hybrid</p>
+              <p class="entry-desc">
+                Developed and maintained full-stack web applications using PHP and Laravel.
+              </p>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Section 4: Education -->
+        <section id="education" aria-labelledby="heading-education">
+          <h2 id="heading-education">Education</h2>
+          <ul class="entry-list">
+            <li class="entry-item">
+              <div class="entry-header">
+                <span class="entry-title">B.Sc. in Computer Engineering (Ingegneria Informatica)</span>
+                <span class="entry-date">2024 &ndash; Present</span>
+              </div>
+              <p class="entry-org">Universit&agrave; degli Studi di Roma &ldquo;Tor Vergata&rdquo;</p>
+              <p class="entry-desc">
+                Software and Web Engineering track.
+              </p>
+            </li>
+            <li class="entry-item">
+              <div class="entry-header">
+                <span class="entry-title">High School Diploma in Computer Science</span>
+                <span class="entry-date">Graduated with 100/100</span>
+              </div>
+              <p class="entry-org">ITT Enrico Fermi, Frascati</p>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Section 5: Certifications -->
+        <section id="certifications" aria-labelledby="heading-certifications">
+          <h2 id="heading-certifications">Certifications</h2>
+          <ul class="entry-list cert-list">
+            <li class="entry-item">
+              <div class="entry-header">
+                <span class="entry-title">Introduction to Cybersecurity</span>
+                <span class="entry-date">Nov 2023</span>
+              </div>
+              <p class="entry-org">Cisco Networking Academy</p>
+            </li>
+            <li class="entry-item">
+              <div class="entry-header">
+                <span class="entry-title">CCNA: Introduction to Networks</span>
+                <span class="entry-date">Jun 2023</span>
+              </div>
+              <p class="entry-org">Cisco</p>
+            </li>
+            <li class="entry-item">
+              <div class="entry-header">
+                <span class="entry-title">NDG Linux Unhatched</span>
+                <span class="entry-date">Apr 2022</span>
+              </div>
+              <p class="entry-org">Cisco Networking Academy</p>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Section 6: Volunteering -->
+        <section id="volunteering" aria-labelledby="heading-volunteering">
+          <h2 id="heading-volunteering">Volunteering</h2>
+          <ul class="entry-list">
+            <li class="entry-item">
+              <div class="entry-header">
+                <span class="entry-title">Scout Leader (Staff Member / Capo Reparto)</span>
+              </div>
+              <p class="entry-org">AGESCI, Rocca Priora</p>
+              <p class="entry-desc">
+                Member of the adult scout staff, supporting youth education, outdoor activities, and summer camps.
+              </p>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Section 7: Contact -->
+        <section id="contact" aria-labelledby="heading-contact">
+          <h2 id="heading-contact">Contact</h2>
+          <p>
+            If you would like to discuss software engineering, academic projects, or technical collaborations, feel free to reach out.
+          </p>
+          <ul class="contact-list">
+            <li>
+              <span class="contact-label">Email</span>
+              <a href="mailto:francyclimber@gmail.com">francyclimber@gmail.com</a>
+            </li>
+            <li>
+              <span class="contact-label">GitHub</span>
+              <a href="https://github.com/cybergaro" target="_blank" rel="noopener noreferrer">github.com/cybergaro</a>
+            </li>
+            <li>
+              <span class="contact-label">LinkedIn</span>
+              <a href="https://www.linkedin.com/in/francesco-garofolo/" target="_blank" rel="noopener noreferrer">linkedin.com/in/francesco-garofolo</a>
+            </li>
+          </ul>
+        </section>
+
+      </main>
+
+      <!-- Minimal Single-Line Footer -->
+      <footer class="site-footer">
+        &copy; 2026 Francesco Garofolo
+      </footer>
+
     </div>
-    <div class="center">
-        <div class="center-content about" id="about">
-            <h3>About Me</h3>
-            <p>
-                Hi there! 👋 I'm a passionate developer with a long history in the world of programming, starting at
-                just 12 years old. At 17, I was lucky enough to work as a developer for a software house for a year,
-                before transitioning to a freelance career. Currently, at 20 years old, I am studying Computer
-                Engineering at Tor Vergata University in Rome. 🎓🌟
-                <br><br>
-                In my work, I mainly focus on app and website development, combining creativity and technical skills to
-                create innovative solutions. 💡💻 Since I turned 18, I have also developed a strong interest in finance,
-                beginning to invest my savings in the stock and bond markets. 📈💰
-                <br><br>
-                I have collaborated with several agencies to create websites, gaining valuable and diverse experience in
-                the field. 🌐 My passion for technology and dedication to continuous improvement are what drive me to
-                grow every day. 🚀
-            </p>
-        </div>
-    </div>
-
-    <div style="height: 30px;"></div>
-
-    <div class="center">
-        <div class="education center-content" id="education">
-            <h3>Studies</h3>
-            <div class="list">
-                <div class="item">
-                    <div class="col-a">
-                        <img src="img/fermi-frascati-logo.svg" alt="Logo ITT Enirico Fermi Frascati">
-                    </div>
-                    <div class="col-b">
-                        <div class="title">
-                            <h4>ITT Enirico Fermi Frascati</h4>
-                            <h5><b>High school</b> • 2019 - 2024</h5>
-                        </div>
-                        <p class="description">
-                            I graduated from ITT Enrico Fermi in Frascati with a score of 100/100, significantly
-                            expanding my software knowledge and building a solid foundation in computer networking. 💻🎓
-                        </p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="col-a">
-                        <img src="img/torvergata.png" alt="Logo università tor vergata">
-                    </div>
-                    <div class="col-b">
-                        <div class="title">
-                            <h4>University of Rome Tor Vergata</h4>
-                            <h5><b>University </b> • 2024 - Today
-                            </h5>
-                        </div>
-                        <p class="description">
-                            Since the start of the 2024 academic year, I have been attending the Computer Engineering
-                            course at the University of Rome Tor Vergata. In this program, I aim to specialize in
-                            machine learning and artificial intelligence, two fields I consider essential for the future
-                            of technology and innovation. 🚀💻
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div style="height: 30px;"></div>
-
-    <div class="center">
-        <div class="experience center-content" id="experience">
-            <h3>Experience</h3>
-            <div class="list">
-                <div class="item">
-                    <div class="col-a">
-                        <div style="height: 10px;"></div>
-                        <img src="img/logo-syrus.webp" alt="Syrus Industry">
-                    </div>
-                    <div class="col-b">
-                        <div class="title">
-                            <h4>Syrus Industry</h4>
-                            <h5><b>Full stack WEB Dev</b> • 2022 - 2023</h5>
-                        </div>
-                        <p class="description">
-                            At 17, I started working at Syrus Industry in Rome as a Full Stack Web Developer, where I
-                            expanded my knowledge of PHP, HTML, CSS, Python, SQL, and Laravel. 🌐💻 I primarily worked
-                            as a back-end developer, developing management systems and applications of considerable
-                            complexity. This experience allowed me to grow professionally and refine my skills in web
-                            development. 🚀🔧
-                        </p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="col-a">
-                        <img src="favicon.ico" alt="Logo Freelance">
-                    </div>
-                    <div class="col-b">
-                        <div class="title">
-                            <h4>Freelance</h4>
-                            <h5><b>App & Website developer</b> • 2023 - Today </h5>
-                        </div>
-                        <p class="description">
-                            Currently, I'm working as a freelancer, developing various websites for different agencies.
-                            I've also ventured into app development with React Native, enhancing my skills in mobile
-                            development. Additionally, I have embarked on my studies in the field of artificial
-                            intelligence, a fascinating and opportunity-rich area for the future. 🚀💻📱
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div style="height: 30px;"></div>
-
-    <div class="center">
-        <div class="certifications center-content" id="certifications">
-            <h3>Certifications</h3>
-            <div class="list">
-                <div class="item">
-                    <div class="col-a">
-                        <img src="img/cisco.png" alt="Logo cisco">
-                    </div>
-                    <div class="col-b">
-                        <div class="title">
-                            <h4>Introduction to Cyber ​​Security</h4>
-                            <h5><b>Cisco</b> • 2024 </h5>
-                        </div>
-                        <p class="description">
-                            The Cisco Introduction to Cybersecurity certification provides a comprehensive overview of
-                            essential cybersecurity concepts. It covers topics such as threat identification, mitigation
-                            techniques, and basic security architectures. This certification is ideal for anyone
-                            starting their journey into the world of cybersecurity, aiming to build a strong foundation
-                            in protecting networks and data. 🛡️🌐
-                        </p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="col-a">
-                        <img src="img/cisco.png" alt="Logo cisco">
-                    </div>
-                    <div class="col-b">
-                        <div class="title">
-                            <h4>Introduction to Networks</h4>
-                            <h5><b>Cisco</b> • 2023</h5>
-                        </div>
-                        <p class="description">
-                            The Cisco Introduction to Networks certification provides foundational knowledge in
-                            networking concepts. It covers essential topics such as network security, IP addressing,
-                            Ethernet concepts, and the basics of routing and switching. This certification is a great
-                            starting point for anyone looking to pursue a career in network engineering or related
-                            fields. 🌐💡
-                        </p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="col-a">
-                        <img src="img/cisco.png" alt="Logo cisco">
-                    </div>
-                    <div class="col-b">
-                        <div class="title">
-                            <h4>Linux Unhatched</h4>
-                            <h5><b>Cisco</b> • 2022 </h5>
-                        </div>
-                        <p class="description">
-                            The Cisco Linux Uncharted certification, also known as "Linux Unhatched," provides an
-                            introductory course that delves into the Linux operating system from multiple angles. It
-                            covers fundamental aspects such as installation, configuration, and basic system management.
-                            This course is ideal for building a solid foundation in Linux and is a great starting point
-                            for further certifications or IT careers. 🌐💡
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div style="height: 30px;"></div>
-
-    <div class="center">
-        <div class="contacts center-content" id="contact">
-            <h3>Contacts</h3>
-            <div class="text-contact">
-                <div class="icon">
-                    <i class="fa-solid fa-envelope"></i>
-                </div>
-                <p>For any information and/or proposal you can contact me at my email address:
-                    <b>francyclimber@gmail.com</b> or on my social channels:</p>
-            </div>
-            <div class="social-bar">
-                <div class="content">
-                    <a href="https://www.instagram.com/francesco_garofolo/" aria-label="instagram link" target="_blank">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/in/francesco-garofolo-8b3522216/" aria-label="Linkedin link" target="_blank">
-                        <i class="fa-brands fa-linkedin"></i>
-                    </a>
-                    <a href="https://x.com/fra_garofolo" aria-label="Twitter link" target="_blank">
-                        <i class="fa-brands fa-x-twitter"></i>
-                    </a>
-                    <a href="https://profiles.wordpress.org/francescogarofolo/" aria-label="Wordpress link" target="_blank">
-                        <i class="fa-brands fa-wordpress"></i>
-                    </a>
-                    <a href="https://github.com/cybergaro" aria-label="GitHub link" target="_blank">
-                        <i class="fa-brands fa-github"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div style="height: 30px;"></div>
-
-    <footer>
-        <div class="center">
-            <div class="center-content content">
-                <div class="col">
-                    <div class="logo">
-                        <img src="favicon.ico" alt="Favicon">
-                        <h2>Francesco Garofolo</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="bar center">
-            <div class="center-content">
-                <p>© 2025 Francesco Garofolo</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-
-                const targetId = this.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
-
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-    </script>
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FFS3MB4YVK"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-
-        gtag('config', 'G-FFS3MB4YVK');
-    </script>
-
-<script>
-a = `
-       @=!@>?/@%@>?>>/$=!@@<
-      <?<$!=<?@=€!@??<€$/@/ 
-     =?!€>€                 
-    ===@>@    €/€!?!>!<@@   
-   €@$%@<    %$%>%!!>?%<%   
-  %???@€         @?@!$@@    
- >%%€><  @>?>?%$<>?>%€@     
-/$%=€$  %/€€=%?>=€!></        `
-
-console.log(a)
-</script>
+  </div>
 </body>
-
 </html>
